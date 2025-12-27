@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Search Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom styles for specific sketch details */
+        .input-group {
+            display: flex;
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+        .input-field {
+            flex-grow: 1;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            outline: none;
+        }
+        .input-icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            background-color: #f9fafb; /* gray-50 */
+            border-left: 1px solid #d1d5db;
+            color: #4b5563;
+            cursor: pointer;
+        }
+        .input-icon-box:hover {
+            background-color: #e5e7eb;
+        }
+        
+        /* Hide scrollbar for clean mobile look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-200 min-h-screen flex items-center justify-center font-sans">
+
+    <!-- Mobile Device Simulator -->
+    <div class="relative w-full max-w-md h-[850px] bg-white shadow-2xl rounded-[3rem] border-[8px] border-gray-800 overflow-hidden flex flex-col">
+        
+        <!-- Phone Notch/Speaker Area (Decorative) -->
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-20"></div>
+
+        <!-- Status Bar Placeholder -->
+        <div class="h-8 w-full bg-white z-10"></div>
+
+        <!-- APP CONTENT CONTAINER -->
+        <div id="app" class="flex-1 overflow-y-auto relative">
+
+            <!-- SCREEN 1: SEARCH FORM (From Sketch) -->
+            <section id="screen-search" class="p-6 flex flex-col h-full transition-opacity duration-300">
+                
+                <!-- Header -->
+                <div class="mb-8">
+                    <div class="text-xl font-bold text-gray-800 mb-6">LOGO</div>
+                    <h1 class="text-3xl text-center font-medium text-gray-800">Lorem Ipsum</h1>
+                </div>
+
+                <!-- Form -->
+                <form class="flex-col space-y-5" onsubmit="event.preventDefault(); navigateTo('screen-results');">
+                    
+                    <!-- From -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">From</label>
+                        <div class="input-group">
+                            <input type="text" placeholder="New York, USA" class="input-field">
+                            <div class="input-icon-box">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- To -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+                        <div class="input-group">
+                            <input type="text" placeholder="London, UK" class="input-field">
+                            <div class="input-icon-box">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dates Row -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Fly out -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Fly out</label>
+                            <div class="input-group">
+                                <input type="text" placeholder="Select Date" onfocus="(this.type='date')" class="input-field text-sm">
+                                <div class="input-icon-box">
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fly back -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Fly back</label>
+                            <div class="input-group">
+                                <input type="text" placeholder="Select Date" onfocus="(this.type='date')" class="input-field text-sm">
+                                <div class="input-icon-box">
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Passengers Row -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Adults -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Adults</label>
+                            <div class="input-group relative">
+                                <input type="number" value="1" min="1" class="input-field">
+                                <div class="flex flex-col border-l border-gray-300 w-8">
+                                    <button type="button" class="h-1/2 flex items-center justify-center hover:bg-gray-100 text-xs border-b border-gray-300">
+                                        <i class="fas fa-caret-up"></i>
+                                    </button>
+                                    <button type="button" class="h-1/2 flex items-center justify-center hover:bg-gray-100 text-xs">
+                                        <i class="fas fa-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Children -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Children</label>
+                            <div class="input-group relative">
+                                <input type="number" value="0" min="0" class="input-field">
+                                <div class="flex flex-col border-l border-gray-300 w-8">
+                                    <button type="button" class="h-1/2 flex items-center justify-center hover:bg-gray-100 text-xs border-b border-gray-300">
+                                        <i class="fas fa-caret-up"></i>
+                                    </button>
+                                    <button type="button" class="h-1/2 flex items-center justify-center hover:bg-gray-100 text-xs">
+                                        <i class="fas fa-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spacer -->
+                    <div class="flex-grow h-8"></div>
+
+                    <!-- Continue Button -->
+                    <button type="submit" class="w-full border-2 border-gray-800 text-gray-800 font-bold py-3 px-4 rounded hover:bg-gray-800 hover:text-white transition-colors uppercase tracking-wide">
+                        Continue
+                    </button>
+
+                </form>
+            </section>
+
+            <!-- SCREEN 2: RESULTS (Simulated Flow) -->
+            <section id="screen-results" class="hidden p-6 flex flex-col h-full bg-gray-50">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="navigateTo('screen-search')" class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-lg font-bold text-gray-800">Search Results</h2>
+                    <div class="w-6"></div> <!-- Spacer for centering -->
+                </div>
+
+                <!-- Results List -->
+                <div class="space-y-4 overflow-y-auto pb-20">
+                    <!-- Card 1 -->
+                    <div class="bg-white p-4 rounded-lg shadow border border-gray-100">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-bold text-lg">08:00</span>
+                            <div class="h-px bg-gray-300 w-16 relative">
+                                <i class="fas fa-plane absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            </div>
+                            <span class="font-bold text-lg">10:30</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 mb-4">
+                            <span>JFK</span>
+                            <span>LHR</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$450</span>
+                            <button class="bg-gray-800 text-white px-4 py-1 rounded text-sm">Select</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white p-4 rounded-lg shadow border border-gray-100">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-bold text-lg">14:15</span>
+                            <div class="h-px bg-gray-300 w-16 relative">
+                                <i class="fas fa-plane absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            </div>
+                            <span class="font-bold text-lg">17:00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 mb-4">
+                            <span>JFK</span>
+                            <span>LHR</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$520</span>
+                            <button class="bg-gray-800 text-white px-4 py-1 rounded text-sm">Select</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="bg-white p-4 rounded-lg shadow border border-gray-100">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-bold text-lg">19:00</span>
+                            <div class="h-px bg-gray-300 w-16 relative">
+                                <i class="fas fa-plane absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            </div>
+                            <span class="font-bold text-lg">21:45</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 mb-4">
+                            <span>JFK</span>
+                            <span>LHR</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-600 font-bold">$380</span>
+                            <button class="bg-gray-800 text-white px-4 py-1 rounded text-sm">Select</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Phone Home Button (Decorative) -->
+        <div class="h-16 bg-white border-t border-gray-100 flex items-center justify-center z-10">
+            <div class="w-12 h-12 rounded-full border-2 border-gray-300"></div>
+        </div>
+
+    </div>
+
+    <!-- Navigation Logic -->
+    <script>
+        function navigateTo(screenId) {
+            // Get all sections
+            const screens = document.querySelectorAll('section');
+            
+            // Hide all screens
+            screens.forEach(screen => {
+                screen.classList.add('hidden');
+            });
+
+            // Show target screen
+            const target = document.getElementById(screenId);
+            if (target) {
+                target.classList.remove('hidden');
+                // Simple animation effect
+                target.classList.add('animate-fade-in');
+            }
+        }
+
+        // Add simple fade in animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.3s ease-out forwards;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
